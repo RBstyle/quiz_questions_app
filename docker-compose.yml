@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  web:
+    restart: unless-stopped
+    build: .
+    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000
+
+    container_name: quiz_server
+    volumes:
+      - .:/backend
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=${DB_URL}
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.9
+    restart: always
+    hostname: db
+    ports:
+      - "15432:5432"
+    env_file:
+      - .env
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - ./database/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/data:/var/lib/postgresql/data
