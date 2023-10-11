@@ -46,8 +46,9 @@ async def shutdown():
     await database.disconnect()
 
 
-@app.post("/", response_model=Question)
+@app.post("/", response_model=Question | dict)
 async def questions_request(item: QuestionsNum):
+    last_id: int = int()
     for item in range(item.questions_num):
         q = get_questions()
 
@@ -61,9 +62,11 @@ async def questions_request(item: QuestionsNum):
             created_at=q["created_at"],
         )
         last_id = await database.execute(query)
-    last_item_query = questions.select().where(questions.c.id == last_id - 1)
-    last_question = await database.fetch_one(last_item_query)
-    return dict(last_question)
+    if last_id:
+        last_item_query = questions.select().where(questions.c.id == last_id - 1)
+        last_question = await database.fetch_one(last_item_query)
+        return dict(last_question)
+    return {}
 
 
 @app.get("/", response_model=List[Question])
