@@ -11,14 +11,15 @@ Simple dockerized uploading files app with Django REST framework
 ### RUN
 1. Clone project
 ```bash
-$ git clone git@github.com:RBstyle/https://github.com/RBstyle/quiz_questions_app.git
-$ cd quiz_questions_app
+$ git clone git@github.com:RBstyle/quiz_questions_app.git
+$ cd quiz_questions_app/
 ```
 2. Rename "env" file
 ```bash
 $ mv example.env .env
 ```
 3. Run project
-```
+```bash
 $ docker-compose up
 ```
+App running on http://0.0.0.0:8000
