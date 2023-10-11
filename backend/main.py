@@ -62,8 +62,9 @@ async def questions_request(item: QuestionsNum):
             created_at=q["created_at"],
         )
         last_id = await database.execute(query)
-    if last_id:
-        last_item_query = questions.select().where(questions.c.id == last_id - 1)
+    previos_id: int = last_id - 1
+    if previos_id > 0:
+        last_item_query = questions.select().where(questions.c.id == previos_id)
         last_question = await database.fetch_one(last_item_query)
         return dict(last_question)
     return {}
