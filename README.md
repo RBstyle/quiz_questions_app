@@ -18,4 +18,6 @@ $ mv example.env .env
 ```bash
 $ docker-compose up
 ```
-App running on http://0.0.0.0:8000
+App running on `http://0.0.0.0:8000`
+
+Swagger UI on `http://0.0.0.0:8000/docs`
